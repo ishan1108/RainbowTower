@@ -12,6 +12,7 @@ public class Stack : MonoBehaviour {
     public TextMeshProUGUI finalScore;
     public TextMeshProUGUI HighScore;
     public GameObject endPanel;
+    public AdManager ad;
 
     private GameObject[] stack;
     const float SIZE = 3.5f;
@@ -33,7 +34,7 @@ public class Stack : MonoBehaviour {
     private Vector3 stackPosition;
     private Vector3 lastTilePos;
     private float stackSpeed = 5.0f;
-    private float ERROR_MARGIN = 0.1f;
+    private float ERROR_MARGIN = 0.15f;
     private int COMBO = 0;
     private Vector2 stackSize = new Vector2(SIZE, SIZE);
     private bool gameOver = false;
@@ -63,6 +64,10 @@ public class Stack : MonoBehaviour {
             {
                 newTile();
                 score++;
+                if(PlayerPrefs.GetInt("Music") == 1)
+                {
+                    gameObject.GetComponent<AudioSource>().Play();
+                }
                 scoreText.text = score.ToString();
             }
             else
@@ -224,6 +229,7 @@ public class Stack : MonoBehaviour {
         gameOver = true;
         stack[index].AddComponent<Rigidbody>();
         DisplayScore();
+        ad.showInterstitialAd();
         endPanel.SetActive(true);
     }
 
